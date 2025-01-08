@@ -1,1 +1,1 @@
-# Fake-Review-Dwtection-Using-Machine-Lesarning
+# Fake-Review-Detection-Using-Machine-Lesarning
