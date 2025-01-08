@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Review Analytics Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f7f7f7;
+            padding: 20px;
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .chart-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+        canvas {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+        }
+        .stats {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+        .stats span {
+            font-weight: bold;
+        }
+        .real-reviews {
+            color: green;
+        }
+        .fake-reviews {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Review Analytics Dashboard</h1>
+    <div class="chart-container">
+        <div>
+            <canvas id="barChart" width="400" height="400"></canvas>
+        </div>
+        <div>
+            <canvas id="pieChart" width="400" height="400"></canvas>
+        </div>
+    </div>
+    <div class="stats">
+        <span class="real-reviews">Real Reviews: 19</span> &nbsp;&nbsp;&nbsp; 
+        <span class="fake-reviews">Fake Reviews: 14</span>
+    </div>
+
+    <script>
+        // Data for the charts
+        const reviewData = {
+            real: 19,
+            fake: 14
+        };
+
+        // Bar Chart Configuration
+        const barCtx = document.getElementById('barChart').getContext('2d');
+        new Chart(barCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Real Reviews', 'Fake Reviews'],
+                datasets: [{
+                    data: [reviewData.real, reviewData.fake],
+                    backgroundColor: ['#4AB0FF', '#FF6B6B'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Pie Chart Configuration
+        const pieCtx = document.getElementById('pieChart').getContext('2d');
+        new Chart(pieCtx, {
+            type: 'pie',
+            data: {
+                labels: ['Real Reviews', 'Fake Reviews'],
+                datasets: [{
+                    data: [reviewData.real, reviewData.fake],
+                    backgroundColor: ['#4AB0FF', '#FF6B6B']
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const total = reviewData.real + reviewData.fake;
+                                const percentage = ((context.raw / total) * 100).toFixed(1);
+                                return `${context.label}: ${percentage}%`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
